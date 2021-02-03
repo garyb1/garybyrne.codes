@@ -1,18 +1,18 @@
 {
-  "name": "EleventyOne",
+  "name": "garybyrnedotcodes",
   "version": "3.0.0",
-  "description": "A project bootstrap for Eleventy sites. With pipelines for PostCSS, JavaScript, and serverless functions",
-  "author": "Phil Hawksworth",
-  "license": "MIT",
+  "description": "Personal Website for Gary Byrne",
+  "author": "Gary Byrne",
   "scripts": {
     "start": "npm run dev",
+    "start:ntl": "ntl dev",
     "dev": "cross-env ELEVENTY_ENV=dev eleventy --serve",
     "build": "cross-env ELEVENTY_ENV=prod eleventy",
     "seed": "cross-env ELEVENTY_ENV=seed eleventy"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/philhawksworth/eleventyone"
+    "url": "https://github.com/garyb1/garybyrne.codes"
   },
   "dependencies": {
     "@11ty/eleventy": "^0.8.3",
@@ -23,6 +23,7 @@
     "dotenv": "^8.0.0",
     "html-minifier": "^4.0.0",
     "luxon": "^1.16.0",
+    "netlify-cli": "^3.4.7",
     "node-fetch": "^2.6.1",
     "postcss": "^7.0.17",
     "postcss-color-mix": "^1.1.0",
