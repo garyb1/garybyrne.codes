@@ -1,6 +1,6 @@
 ---
 title: Creating an Apollo Server GraphQL Content Hub
-date: 2021-12-13
+date: 2021-02-13
 ---
 
 # Creating an Apollo Server GraphQL Content Hub and Deploying to Netlify
