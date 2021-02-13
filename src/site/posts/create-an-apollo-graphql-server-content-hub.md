@@ -15,10 +15,7 @@ Now that we know what we are making, let's jump right in.
 
 This is essentially a browser-based IDE created by [Prisma](https://www.prisma.io/). It makes it easy for us to interact with our data sources and query them all within the browser. Apollo has an entire section on the playground [here](https://www.apollographql.com/docs/apollo-server/testing/graphql-playground/) which is worth checking out. 
 
-The GraphQL playground look likes [this](https://cdn.hashnode.com/res/hashnode/image/upload/v1612472082507/r7LAqoBHl.png):
-
-You can see a screenshot of the playground [here](https://cdn.hashnode.com/res/hashnode/image/upload/v1612472082507/r7LAqoBHl.png)
-
+Click [here](https://cdn.hashnode.com/res/hashnode/image/upload/v1612472082507/r7LAqoBHl.png) to see a screenshot of what a GraphQL playground looks like.
 
 ##  What exactly are we building?
 
