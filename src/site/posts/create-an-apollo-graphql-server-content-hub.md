@@ -3,8 +3,6 @@ title: Creating an Apollo Server GraphQL Content Hub
 date: 2021-02-13
 ---
 
-# Creating an Apollo Server GraphQL Content Hub and Deploying to Netlify
-
 In this tutorial, I am going to be showing you how to create a very simple version of a GraphQL content hub using [Apollo Server](https://www.apollographql.com/docs/apollo-server/).  We will be deploying this content hub to [Netlify](www.netlify.com) as a serverless function.
 
 Now that we know what we are making, let's jump right in.
