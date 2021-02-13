@@ -15,9 +15,10 @@ Now that we know what we are making, let's jump right in.
 
 This is essentially a browser-based IDE created by [Prisma](https://www.prisma.io/). It makes it easy for us to interact with our data sources and query them all within the browser. Apollo has an entire section on the playground [here](https://www.apollographql.com/docs/apollo-server/testing/graphql-playground/) which is worth checking out. 
 
-The GraphQL playground look like [this](https://cdn.hashnode.com/res/hashnode/image/upload/v1612472082507/r7LAqoBHl.png):
+The GraphQL playground look likes [this](https://cdn.hashnode.com/res/hashnode/image/upload/v1612472082507/r7LAqoBHl.png):
 
-![playground.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1612472082507/r7LAqoBHl.png)
+You can see a screenshot of the playground [here](https://cdn.hashnode.com/res/hashnode/image/upload/v1612472082507/r7LAqoBHl.png)
+
 
 ##  What exactly are we building?
 
@@ -49,7 +50,7 @@ Setting up a GraphQL API might sound more daunting than it actually is. Let's cr
 
 Clone this [repo](https://github.com/garyb1/netlify-apollo-server-starter) to get started quickly.
 
-```
+```bash
 git clone https://github.com/garyb1/netlify-apollo-server-starter
 cd netlify-apollo-server-starter
 ```
@@ -63,7 +64,7 @@ Inside **src** we have a lambda directory. This is our folder for our serverless
 
 We have a `netlify.toml` file with the following:
 
-```
+```toml
 [build]
   command = "npm run build"
   functions = "built-lambda"
@@ -84,7 +85,7 @@ A schema is a collection of type definitions (hence "typeDefs") that together de
 
 Our Book type looks like this:
 
-```
+```gql
   # This "Book" type defines the queryable fields for every book in our data source.
   type Book {
     title: String
@@ -96,7 +97,7 @@ This created a queryable field called `Book` which has a title and an author whi
 
 In `typeDefs` you will see the following:
 
-```
+```gql
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
@@ -116,7 +117,7 @@ We have data for our books in `src/data/books.js` but Apollo Server doesn't know
 
 Our resolver looks like the following:
 
-```
+```gql
 export const resolvers = {
   Query: {
     books: () => books,
@@ -130,7 +131,7 @@ export const resolvers = {
 
 In our `src/lambda/graphql.js` you will see the following:
 
-```
+```js
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
 const server = new ApolloServer({ typeDefs, resolvers });
@@ -142,7 +143,7 @@ We are creating an instance of an apollo server and passing it our schema defini
 
 In your terminal, we can now run our GraphQL server.
 
-```
+```bash
 npm start
 
 ```
@@ -158,7 +159,7 @@ Open `localhost:9000/graphql` to see our GraphQL playground.
 
 Type the following query into the playground to get back some books.
 
-```
+```gql
 # Write your query or mutation here
 query {
   books {
@@ -170,7 +171,7 @@ query {
 
 This should give you back
 
-```
+```json
 {
   "data": {
     "books": [
@@ -194,7 +195,7 @@ See the screenshot below of the playground to compare with yours.
 
 We can also query for a specific book. Let's search for a book by its title.
 
-```
+```gql
 # Write your query or mutation here
 query {
   book(title: "City of Glass") {
@@ -206,7 +207,7 @@ query {
 
 This will return the following data:
 
-```
+```json
 {
   "data": {
     "book": {
@@ -231,7 +232,7 @@ Next, we need to install the `isomorphic-fetch` package so we can use [fetch API
 
 Next, let's create a function that will query the countries API for every country including their name, country code, and capital. The query will look something like this:
 
-```
+```gql
     query {
       countries {
         name
@@ -243,7 +244,7 @@ Next, let's create a function that will query the countries API for every countr
 
 Paste the following code into `src/data/countries.js`
 
-```
+```js
 import fetch from 'isomorphic-fetch;
 
 export const getCountries = async () => {
@@ -282,7 +283,7 @@ What if we want a single country? Let's refactor this function to filter by a co
 
 Change the query 
 
-```
+```js
 export const getCountries = async (code) => {
   const url = 'https://countries.trevorblades.com/';
   let query;
@@ -313,7 +314,7 @@ export const getCountries = async (code) => {
 
 In `src/schema.js` let us add our Country type:
 
-```
+```gql
 # This "Country" type defines the queryable fields for every country from the countries.trevorblades.com/ api
   type Country {
     code: String
@@ -334,7 +335,7 @@ In `src/schema.js` let us add our Country type:
 
 In `src/resolvers.js` let's add our resolver for countries.
 
-```
+```js
     countries: async (parent, { code }) => {
       const { data: { countries } } = await getCountries(code);
       return [...countries.slice(0, 10)];
@@ -349,7 +350,7 @@ Let's restart our node server by running `npm start ` and go back to our playgro
 
 Copy in the following query to search for all of the countries available:
 
-```
+```gql
 query {
   countries {
     code
@@ -364,7 +365,7 @@ This should return 10 countries from our resolver.
 
 Let's search for `United Arab Emirates`:
 
-```
+```gql
 query {
   countries(code: "AE") {
     code
@@ -377,7 +378,7 @@ query {
 
 You should see the following country returned:
 
-```
+```json
 {
   "data": {
     "countries": [
@@ -396,7 +397,7 @@ You should see the following country returned:
 
 We could use the same approach with `isomorphic-fetch`. However, I am going to show you another way to query this API.  This example shows how to query a third-party GraphQL [API](https://rickandmortyapi.com/graphq) with the request function from Prisma's `graphql-request` library.
 
-```
+```js
 
 import { request } from 'graphql-request';
 
@@ -422,7 +423,7 @@ export const getCharacters = async () => {
 
 In `src/schema.js`:
 
-```
+```gql
 
   # This "Character" type defines the queryable fields for every character from the Rick and Morty API
   type Character {
@@ -448,7 +449,7 @@ Test your skills now by querying for an individual character following similar s
 
 In `src/resolvers.js`, let's add our resolver for characters. 
 
-```
+```gql
    characters: async () => {
       const { characters: { results } } = await getCharacters();
       return results;
@@ -461,7 +462,7 @@ Open up your GraphQL playground on `localhost:9000/graphql`.
 
 Paste in the following query:
 
-```
+```gql
 query {
   characters {
     name
@@ -486,7 +487,7 @@ To get started with this, create the following file:
 
 Paste in the following code:
 
-```
+```js
 /*
   This example shows how to query the OMDB API using the apollo data source package
 */
@@ -514,7 +515,7 @@ This essentially just created a MoviesAPI class that has an async method `getMov
 
 Our `src/schema.js` should now look like the following:
 
-```
+```js
 /* eslint-disable import/prefer-default-export */
 import { gql } from 'apollo-server-lambda';
 
@@ -567,7 +568,7 @@ export const typeDefs = gql`
 ```
 Our `src/resolvers.js` should now look like the following:
 
-```
+```js
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
 
@@ -604,7 +605,7 @@ I really suggest giving it a read.
 We need to supply this to our Apollo Server instance.
 In `src/lambda/graphql.js` add in the following.
 
-```
+```js
 import { MoviesAPI } from '../data/omdb.js';
 
 const server = new ApolloServer({
@@ -621,7 +622,7 @@ const server = new ApolloServer({
 Open the playground on `localhost:9000/graphql`.
 Add the following query to search for a `Batman` movie.
 
-```
+```gql
 query {
 movie(name: "Batman") {
   Title
@@ -633,7 +634,7 @@ movie(name: "Batman") {
 
 This will return the following data:
 
-```
+```json
 {
   "data": {
     "movie": {
@@ -652,7 +653,7 @@ Lastly, before we push to Github, we need to enable the GraphQL playground and [
 Now that we are ready to deploy our server. We can go ahead and commit our project to Github.
 If you need to figure out how to create a repository on Github you can follow these [docs](https://docs.github.com/en/github/getting-started-with-github/create-a-repo).
 
-```
+```bash
 git add -A
 git commit -m "created graphql content hub"
 git push -u origin main
@@ -692,7 +693,7 @@ Feel free to visit the [playground](https://gql-content-hub.netlify.app/.netlify
 If you don't like the endpoint being "*/.netlify/functions*"
 you can change it by adding a redirect in `netlify.toml`.
 
-```
+```toml
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
